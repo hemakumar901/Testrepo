@@ -1,0 +1,32 @@
+---
+- name: Install Terraform and Execute terraform.tf
+  hosts: localhost
+  tasks:
+    - name: Install Terraform
+      shell: >
+        curl -LO "https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip" &&
+        unzip terraform_1.0.0_linux_amd64.zip -d /usr/local/bin/
+      become: yes
+
+    - name: Check Terraform version
+      command: terraform version
+      register: terraform_version
+
+    - name: Display Terraform version
+      debug:
+        var: terraform_version.stdout_lines
+
+    - name: Initialize Terraform
+      command: terraform init
+      args:
+        chdir: 
+
+    - name: Plan Terraform Changes
+      command: terraform plan -out=tfplan
+      args:
+        chdir: 
+
+    - name: Apply Terraform Changes
+      command: terraform apply -auto-approve tfplan
+      args:
+        chdir: 
