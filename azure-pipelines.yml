@@ -1,23 +1,46 @@
 trigger:
 - main
 
-pr:
-- '*'
-
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
+prerequisites:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.x'
     addToPath: true
+    architecture: 'x64'
 
-- script: |
-    terraform init
-    terraform plan -out=tfplan -input=false
-  displayName: 'Terraform Init and Plan'
+jobs:
+- job: TerraformWithAnsible
+  pool:
+    vmImage: 'ubuntu-latest'
 
-- script: |
-    terraform apply -input=false tfplan
-  displayName: 'Terraform Apply'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+      architecture: 'x64'
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+      architecture: 'x64'
+
+  - task: DownloadSecureFile@1
+    inputs:
+      name: 'ansible-playbook'
+      secureFile: 'your-ansible-playbook.yml'  # Upload your ansible playbook file to Azure DevOps as a secure file
+
+  - script: 'pip install ansible'
+    displayName: 'Install Ansible'
+
+  - script: 'ansible-playbook $(Agent.TempDirectory)/ansible-playbook.yml'
+    env:
+      ANSIBLE_HOST_KEY_CHECKING: false
+    displayName: 'Run Ansible Playbook'
+
+  - script: 'terraform --version'
+    displayName: 'Verify Terraform Installation'
+
+  - script: 'cd $(System.DefaultWorkingDirectory)/path/to/terraform/directory && terraform init && terraform plan -out=tfplan && terraform apply -auto-approve tfplan'
+    displayName: 'Initialize and Apply Terraform'
