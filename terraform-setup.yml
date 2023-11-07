@@ -19,14 +19,14 @@
     - name: Initialize Terraform
       command: terraform init
       args:
-        chdir: 
+        chdir: azure-pipelines.tf
 
     - name: Plan Terraform Changes
       command: terraform plan -out=tfplan
       args:
-        chdir: 
+        chdir: azure-pipelines.tf
 
     - name: Apply Terraform Changes
       command: terraform apply -auto-approve tfplan
       args:
-        chdir: 
+        chdir: azure-pipelines.tf
