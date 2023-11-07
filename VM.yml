@@ -1,0 +1,17 @@
+trigger:
+  - main  
+ 
+pool:
+  vmImage: 'ubuntu-latest'  
+ 
+steps:
+- task: AzureResourceGroup
+  inputs:
+    azureSubscription: 'f5476c67-5c6f-459d-b8d7-66386c7982c8'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '<ProjectPractice>'
+    location: '<Azure region>'
+    templateLocation: 'Linked artifact'
+    csmFile: '<path to your ARM template.json>'
+    csmParametersFile: '/data/test'
+    overrideParameters: '-machineName myLinuxVM'
