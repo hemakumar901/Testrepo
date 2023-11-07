@@ -29,12 +29,12 @@ jobs:
   - task: DownloadSecureFile@1
     inputs:
       name: 'ansible-playbook'
-      secureFile: 'your-ansible-playbook.yml'  # Upload your ansible playbook file to Azure DevOps as a secure file
+      secureFile: 'terraform-setup.yml'  # Upload your ansible playbook file to Azure DevOps as a secure file
 
   - script: 'pip install ansible'
     displayName: 'Install Ansible'
 
-  - script: 'ansible-playbook $(Agent.TempDirectory)/ansible-playbook.yml'
+  - script: 'ansible-playbook $(Agent.TempDirectory)/terraform-setup.yml'
     env:
       ANSIBLE_HOST_KEY_CHECKING: false
     displayName: 'Run Ansible Playbook'
