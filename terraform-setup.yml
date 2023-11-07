@@ -1,5 +1,5 @@
 {
-    "name": "vm11",
+    "name": "vm111",
     "id": "/subscriptions/f5476c67-5c6f-459d-b8d7-66386c7982c8/resourceGroups/ProjectPractice/providers/Microsoft.Compute/virtualMachines/vm",
     "type": "Microsoft.Compute/virtualMachines",
     "location": "eastus",
